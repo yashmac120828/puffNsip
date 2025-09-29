@@ -1,5 +1,44 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Shimmer Loading Component
+const ShimmerLoader = ({ className = "" }) => (
+    <div className={`animate-pulse bg-gradient-to-r from-almond/50 via-white to-almond/50 bg-[length:200%_100%] animate-shimmer ${className}`}>
+        <div className="h-full w-full bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer"></div>
+    </div>
+);
+
+// Menu Item Shimmer
+const MenuItemShimmer = () => (
+    <div className="bg-white/90 p-4 md:p-6 rounded-xl shadow-md border border-twine/10 animate-pulse">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2 sm:gap-0">
+            <div className="h-6 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded flex-1 animate-shimmer"></div>
+            <div className="h-6 w-16 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+        </div>
+        <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-3/4 animate-shimmer"></div>
+    </div>
+);
+
+// Tab Shimmer
+const TabShimmer = () => (
+    <div className="bg-white/80 p-1.5 rounded-xl shadow-lg border border-twine/10 flex flex-row">
+        {[1, 2, 3].map((i) => (
+            <div key={i} className="px-3 md:px-4 py-1.5 md:py-2 rounded-lg mx-0.5 flex items-center">
+                <div className="w-5 h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mr-1 animate-shimmer"></div>
+                <div className="h-4 w-16 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+            </div>
+        ))}
+    </div>
+);
+
+// Image Shimmer
+const ImageShimmer = () => (
+    <div className="bg-gradient-to-br from-white to-almond/50 p-4 md:p-6 lg:p-8 rounded-2xl shadow-xl border border-twine/20">
+        <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-r from-almond/50 via-white to-almond/50 animate-shimmer">
+            <div className="w-full h-full bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer"></div>
+        </div>
+    </div>
+);
+
 // SVG Icons Components
 const CoffeeIcon = ({ className = "w-6 h-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="coffeeTitle">
@@ -111,9 +150,15 @@ const AbstractPattern = () => (
 function Menu() {
     const [activeTab, setActiveTab] = useState('coffee');
     const [isVisible, setIsVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const menuRef = useRef(null);
 
     useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -128,6 +173,7 @@ function Menu() {
         }
 
         return () => {
+            clearTimeout(loadingTimer);
             if (menuRef.current) {
                 observer.unobserve(menuRef.current);
             }
@@ -198,7 +244,10 @@ function Menu() {
 
                 {/* Tab Navigation */}
                 <div className={`flex justify-center mb-12 transition-all duration-1000 delay-300 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                    <div className="bg-white/80 p-1.5 rounded-xl shadow-lg border border-twine/10 max-w-full overflow-x-auto flex flex-row">
+                    {isLoading ? (
+                        <TabShimmer />
+                    ) : (
+                        <div className="bg-white/80 p-1.5 rounded-xl shadow-lg border border-twine/10 max-w-full overflow-x-auto flex flex-row">
                         {Object.keys(menuItems).map((tab) => {
                             const IconComponent = menuItems[tab].icon;
                             return (
@@ -217,15 +266,32 @@ function Menu() {
                                 </button>
                             );
                         })}
-                    </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Tab Content */}
                 <div className={`transition-all duration-1000 delay-500 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
-                        {/* Featured Image */}
-                        <div className="order-2 lg:order-1">
-                            <div className="bg-gradient-to-br from-white to-almond/50 p-4 md:p-6 lg:p-8 rounded-2xl shadow-xl border border-twine/20">
+                    {isLoading ? (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
+                            {/* Featured Image Shimmer */}
+                            <div className="order-2 lg:order-1">
+                                <ImageShimmer />
+                            </div>
+                            {/* Menu Items Shimmer */}
+                            <div className="order-1 lg:order-2">
+                                <div className="space-y-4">
+                                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                                        <MenuItemShimmer key={i} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
+                            {/* Featured Image */}
+                            <div className="order-2 lg:order-1">
+                                <div className="bg-gradient-to-br from-white to-almond/50 p-4 md:p-6 lg:p-8 rounded-2xl shadow-xl border border-twine/20">
                                 <div className="aspect-square rounded-xl overflow-hidden relative group">
                                     <img 
                                         src={menuItems[activeTab].image}
@@ -284,9 +350,10 @@ function Menu() {
                                         </p>
                                     </div>
                                 ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* CTA Section */}

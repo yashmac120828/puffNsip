@@ -98,7 +98,7 @@ function AboutUs() {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-amber-800 font-serif mb-6 sm:mb-8 md:mb-12">
-                            A Message from Our Director
+                            A Message from Our Owner
                         </h2>
                         
                         <div className="bg-white p-6 sm:p-8 md:p-12 rounded-3xl shadow-2xl relative">
@@ -108,8 +108,8 @@ function AboutUs() {
                             
                             <div className="mb-6 sm:mb-8">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
-                                    alt="Director of Puff & Sip" 
+                                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFuJTIwaW1hZ2V8ZW58MHx8MHx8fDA%3D" 
+                                    alt="Owner of Puff & Sip" 
                                     className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 sm:mb-6 object-cover shadow-lg"
                                 />
                                 <h3 className="text-xl sm:text-2xl font-bold text-amber-800 mb-2">Michael Thompson</h3>
@@ -126,8 +126,8 @@ function AboutUs() {
                             
                             <div className="text-right">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1589379822320-8e018ec60e75?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                    alt="Director signature" 
+                                    src="https://plus.unsplash.com/premium_photo-1723888835240-abcd5c881a9b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2lnbmF0dXJlJTIwaWFtZ2V8ZW58MHx8MHx8fDA%3D" 
+                                    alt="Owner signature" 
                                     className="w-20 sm:w-24 md:w-32 h-8 sm:h-10 md:h-12 object-contain ml-auto opacity-60"
                                 />
                             </div>
@@ -363,7 +363,7 @@ function AboutUs() {
                                 </div>
                                 <div className="h-24 sm:h-28 md:h-32 rounded-xl overflow-hidden">
                                     <img 
-                                        src="https://images.unsplash.com/photo-1555507036-ab794f575c5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                        src="https://images.unsplash.com/photo-1634598604019-7fca68ad3b8e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dG9hc3QlMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D" 
                                         alt="Fresh baked croissant" 
                                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                     />
@@ -468,7 +468,7 @@ function AboutUs() {
                         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group transform hover:-translate-y-2">
                             <div className="mb-4 overflow-hidden rounded-xl">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1555507036-ab794f575c5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                    src="https://images.unsplash.com/photo-1653550027228-e3202a24ccc1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                                     alt="Classic puff pastry golden and flaky" 
                                     className="w-full h-32 sm:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
@@ -510,7 +510,7 @@ function AboutUs() {
                         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group transform hover:-translate-y-2">
                             <div className="mb-4 overflow-hidden rounded-xl">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                    src="https://images.unsplash.com/photo-1572381628347-92199ba360c6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2Vhc29uYWx8ZW58MHx8MHx8fDA%3D" 
                                     alt="Seasonal special pastry creation" 
                                     className="w-full h-32 sm:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
@@ -536,7 +536,7 @@ function AboutUs() {
                     
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
                         <a 
-                            href="#menu" 
+                            href="/full-menu" 
                             className="bg-amber-50 text-amber-800 px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-semibold hover:bg-white transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                         >
                             See Our Full Menu

@@ -2,11 +2,68 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import animatedVideo from '../assets/animated-video.mp4';
 
+// About Shimmer Loading Component
+const AboutShimmer = () => (
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        {/* Video Section Shimmer */}
+        <div className="order-1 lg:order-1">
+            <div className="bg-gradient-to-br from-white to-almond/50 p-8 rounded-2xl shadow-xl border border-twine/20">
+                <div className="aspect-square bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-xl animate-shimmer">
+                    <div className="w-full h-full bg-gradient-to-r from-transparent via-white/60 to-transparent animate-shimmer"></div>
+                </div>
+            </div>
+        </div>
+
+        {/* Content Section Shimmer */}
+        <div className="order-2 lg:order-2">
+            <div className="space-y-6">
+                <div className="h-10 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                
+                <div className="space-y-4">
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-5/6 animate-shimmer"></div>
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-4/6 animate-shimmer"></div>
+                </div>
+                
+                <div className="space-y-4">
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-3/4 animate-shimmer"></div>
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-5/6 animate-shimmer"></div>
+                </div>
+
+                <div className="pt-6">
+                    <div className="h-12 w-48 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+// Stats Shimmer Component
+const StatsShimmer = () => (
+    <div className="mt-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="group">
+                    <div className="h-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mb-2 animate-shimmer"></div>
+                    <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
 function About() {
     const [isVisible, setIsVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const aboutRef = useRef(null);
 
     useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -21,6 +78,7 @@ function About() {
         }
 
         return () => {
+            clearTimeout(loadingTimer);
             if (aboutRef.current) {
                 observer.unobserve(aboutRef.current);
             }
@@ -44,7 +102,14 @@ function About() {
                     <div className="w-24 h-1 bg-twine mx-auto mb-6"></div>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                {isLoading ? (
+                    <>
+                        <AboutShimmer />
+                        <StatsShimmer />
+                    </>
+                ) : (
+                    <>
+                        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     {/* Animated Video Section */}
                     <div className={`transition-all duration-1000 delay-300 transform ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>
                         <div className="bg-gradient-to-br from-white to-almond/50 p-8 rounded-2xl shadow-xl border border-twine/20">
@@ -123,9 +188,11 @@ function About() {
                                 100%
                             </div>
                             <div className="text-leather font-medium">Fresh Daily</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    </>
+                )}
             </div>
         </section>
     );

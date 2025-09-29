@@ -1,10 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import puffSipLogo from '../assets/Puff-and-Sip-Logo.png';
 
+// Hero Shimmer Loading Component
+const HeroShimmer = () => (
+    <section className="min-h-screen bg-gradient-to-br from-almond via-almond to-twine/20 flex items-center justify-center relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+            <div className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+            <div className="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+            <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            {/* Logo Shimmer */}
+            <div className="mb-8">
+                <div className="mx-auto h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+            </div>
+
+            {/* Main Heading Shimmer */}
+            <div className="mb-6">
+                <div className="h-12 md:h-16 lg:h-20 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-4 animate-shimmer"></div>
+                <div className="h-12 md:h-16 lg:h-20 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto w-3/4 animate-shimmer"></div>
+            </div>
+
+            {/* Subheading Shimmer */}
+            <div className="mb-8">
+                <div className="h-8 md:h-12 lg:h-16 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-4 animate-shimmer"></div>
+            </div>
+
+            {/* Description Shimmer */}
+            <div className="mb-12">
+                <div className="h-6 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-2 animate-shimmer"></div>
+                <div className="h-6 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-2 w-5/6 animate-shimmer"></div>
+                <div className="h-6 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto w-4/6 animate-shimmer"></div>
+            </div>
+
+            {/* CTA Buttons Shimmer */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div className="h-14 w-48 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+                <div className="h-14 w-48 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-full animate-shimmer"></div>
+            </div>
+        </div>
+    </section>
+);
+
 function Hero() {
     const [displayText, setDisplayText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     
     const texts = [
         'Fresh Puffs',
@@ -14,26 +59,43 @@ function Hero() {
     ];
 
     useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 800);
+
         const currentText = texts[currentTextIndex];
         
-        if (currentIndex < currentText.length) {
+        if (!isLoading && currentIndex < currentText.length) {
             const timeout = setTimeout(() => {
                 setDisplayText(currentText.slice(0, currentIndex + 1));
                 setCurrentIndex(currentIndex + 1);
             }, 150);
-            return () => clearTimeout(timeout);
-        } else {
+            return () => {
+                clearTimeout(timeout);
+                clearTimeout(loadingTimer);
+            };
+        } else if (!isLoading) {
             const timeout = setTimeout(() => {
                 setCurrentIndex(0);
                 setCurrentTextIndex((currentTextIndex + 1) % texts.length);
                 setDisplayText('');
             }, 2000);
-            return () => clearTimeout(timeout);
+            return () => {
+                clearTimeout(timeout);
+                clearTimeout(loadingTimer);
+            };
         }
-    }, [currentIndex, currentTextIndex, texts]);
+        
+        return () => clearTimeout(loadingTimer);
+    }, [currentIndex, currentTextIndex, texts, isLoading]);
 
     return (
-        <section id="hero" className="min-h-screen bg-gradient-to-br from-almond via-almond to-twine/20 flex items-center justify-center relative overflow-hidden">
+        <>        
+            {isLoading ? (
+                <HeroShimmer />
+            ) : (
+                <section id="hero" className="min-h-screen bg-gradient-to-br from-almond via-almond to-twine/20 flex items-center justify-center relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-20 left-20 w-32 h-32 bg-russet rounded-full animate-pulse"></div>
@@ -83,19 +145,20 @@ function Hero() {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{animationDelay: '1.5s'}}>
-                    <button className="bg-russet text-almond px-8 py-4 rounded-full text-lg font-semibold hover:bg-leather transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl min-w-48" >
+                    <a href="/full-menu" className="bg-russet text-almond px-8 py-4 rounded-full text-lg font-semibold hover:bg-leather transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl min-w-48" >
                         Explore Menu
-                    </button>
-                    <button className="border-2 border-russet text-russet px-8 py-4 rounded-full text-lg font-semibold hover:bg-russet hover:text-almond transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl min-w-48">
+                    </a>
+                    <a href="#contact" className="border-2 border-russet text-russet px-8 py-4 rounded-full text-lg font-semibold hover:bg-russet hover:text-almond transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl min-w-48">
                         Visit Us
-                    </button>
+                    </a>
                 </div>
 
                 
             </div>
 
-           
-        </section>
+                </section>
+            )}
+        </>
     );
 }
 

@@ -1,5 +1,62 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Shimmer Loading Components
+const ContactShimmer = () => (
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        {/* Form Shimmer */}
+        <div className="order-2 lg:order-1">
+            <div className="bg-white/90 p-6 md:p-8 rounded-2xl shadow-xl border border-twine/20">
+                <div className="space-y-6">
+                    <div className="h-8 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                    <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-3/4 animate-shimmer"></div>
+                    
+                    <div className="space-y-4">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i}>
+                                <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-1/4 mb-2 animate-shimmer"></div>
+                                <div className="h-10 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <div className="h-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                </div>
+            </div>
+        </div>
+        
+        {/* Contact Info Shimmer */}
+        <div className="order-1 lg:order-2">
+            <div className="space-y-8">
+                <div className="h-8 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                
+                <div className="space-y-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-white/80 p-6 rounded-xl shadow-md border border-twine/10">
+                            <div className="flex items-start space-x-4">
+                                <div className="w-12 h-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                                <div className="flex-1 space-y-2">
+                                    <div className="h-6 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                                    <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-3/4 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                
+                {/* QR Codes Shimmer */}
+                <div className="grid grid-cols-2 gap-6 mt-8">
+                    {[1, 2].map((i) => (
+                        <div key={i} className="bg-white/80 p-6 rounded-xl shadow-md border border-twine/10 text-center">
+                            <div className="w-24 h-24 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-4 animate-shimmer"></div>
+                            <div className="h-5 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 // SVG Icons Components
 const LocationIcon = ({ className = "w-6 h-6" }) => (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -107,6 +164,7 @@ const CoffeeBeanPattern = () => (
 
 function Contact() {
     const [isVisible, setIsVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -116,6 +174,11 @@ function Contact() {
     const contactRef = useRef(null);
 
     useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1200);
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -130,6 +193,7 @@ function Contact() {
         }
 
         return () => {
+            clearTimeout(loadingTimer);
             if (contactRef.current) {
                 observer.unobserve(contactRef.current);
             }
@@ -176,8 +240,11 @@ function Contact() {
                     </p>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-16 items-start">
-                    {/* Contact Form */}
+                {isLoading ? (
+                    <ContactShimmer />
+                ) : (
+                    <div className="grid lg:grid-cols-2 gap-16 items-start">
+                        {/* Contact Form */}
                     <div className={`transition-all duration-1000 delay-300 transform ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>
                         <div className="bg-gradient-to-br from-white to-almond/30 p-8 rounded-2xl shadow-xl border border-twine/20 relative overflow-hidden">
                             {/* Coffee cup decoration */}
@@ -341,8 +408,9 @@ function Contact() {
                                 WhatsApp
                             </a>
                         </div>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* CTA Section */}
                 <div className={`mt-16 text-center transition-all duration-1000 delay-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
@@ -366,7 +434,7 @@ function Contact() {
                                 Book a Table
                             </button>
                             <a 
-                                href="#menu"
+                                href="/full-menu"
                                 className="border-2 border-almond text-almond px-8 py-4 rounded-full text-lg font-semibold hover:bg-almond hover:text-russet transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                             >
                                 View Menu

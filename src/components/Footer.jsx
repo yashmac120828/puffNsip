@@ -1,6 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import puffSipLogo from '../assets/Puff-and-Sip-Logo.png';
+
+// Footer Shimmer Loading Component
+const FooterShimmer = () => (
+    <div className="bg-gradient-to-b from-russet to-leather relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                {/* Brand Section Shimmer */}
+                <div className="lg:col-span-1">
+                    <div className="flex items-center space-x-3 mb-6">
+                        <div className="h-12 w-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                        <div className="h-8 w-32 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                    </div>
+                    <div className="space-y-2 mb-6">
+                        <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                        <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-5/6 animate-shimmer"></div>
+                        <div className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded w-4/6 animate-shimmer"></div>
+                    </div>
+                    <div className="flex space-x-4">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="w-10 h-10 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                        ))}
+                    </div>
+                </div>
+                
+                {/* Links Sections Shimmer */}
+                {[1, 2, 3].map((section) => (
+                    <div key={section}>
+                        <div className="h-6 w-24 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mb-4 animate-shimmer"></div>
+                        <div className="space-y-3">
+                            {[1, 2, 3, 4].map((link) => (
+                                <div key={link} className="h-4 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            
+            {/* Newsletter Shimmer */}
+            <div className="border-t border-almond/20 pt-8 mb-8">
+                <div className="max-w-md mx-auto text-center">
+                    <div className="h-6 w-48 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded mx-auto mb-4 animate-shimmer"></div>
+                    <div className="flex">
+                        <div className="flex-1 h-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-l-lg animate-shimmer"></div>
+                        <div className="w-24 h-12 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded-r-lg animate-shimmer"></div>
+                    </div>
+                </div>
+            </div>
+            
+            {/* Bottom Section Shimmer */}
+            <div className="border-t border-almond/20 pt-8">
+                <div className="flex flex-col md:flex-row justify-between items-center">
+                    <div className="h-4 w-64 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                    <div className="flex space-x-4 mt-4 md:mt-0">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-4 w-16 bg-gradient-to-r from-almond/50 via-white to-almond/50 rounded animate-shimmer"></div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
 
 // SVG Icons Components
 const InstagramIcon = ({ className = "w-5 h-5" }) => (
@@ -56,6 +118,16 @@ const ArrowUpIcon = ({ className = "w-5 h-5" }) => (
 
 function Footer() {
     const currentYear = new Date().getFullYear();
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 600);
+        
+        return () => clearTimeout(loadingTimer);
+    }, []);
 
     return (
         <footer className="bg-gradient-to-r from-russet to-leather text-almond relative overflow-hidden">
@@ -142,6 +214,14 @@ function Footer() {
                                     >
                                         <span className="group-hover:translate-x-1 transition-transform duration-300">About Us</span>
                                     </Link>
+                                </li>
+                                <li>
+                                    <a 
+                                        href="#tour" 
+                                        className="text-almond/90 hover:text-white transition-colors duration-300 flex items-center group"
+                                    >
+                                        <span className="group-hover:translate-x-1 transition-transform duration-300">Tour</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <Link 
@@ -259,7 +339,6 @@ function Footer() {
                 </div>
             </div>
         </footer>
-    );
-}
-
+            )}
+        
 export default Footer;

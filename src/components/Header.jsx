@@ -1,16 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import puffSipLogo from '../assets/Puff-and-Sip-Logo.png';
 
+// Header Shimmer Loading Component
+const HeaderShimmer = () => (
+    <header className="bg-almond shadow-lg sticky top-0 z-50">
+        <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-18 md:h-24 lg:h-28">
+                {/* Logo Section Shimmer */}
+                <div className="flex items-center space-x-3">
+                    <div className="h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 bg-gradient-to-r from-russet/30 via-white to-russet/30 rounded animate-shimmer"></div>
+                    <div className="h-8 w-32 bg-gradient-to-r from-russet/30 via-white to-russet/30 rounded animate-shimmer"></div>
+                </div>
+
+                {/* Desktop Navigation Shimmer */}
+                <div className="hidden md:flex items-center space-x-8">
+                    {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="h-4 w-16 bg-gradient-to-r from-russet/30 via-white to-russet/30 rounded animate-shimmer"></div>
+                    ))}
+                    <div className="h-10 w-20 bg-gradient-to-r from-russet/30 via-white to-russet/30 rounded-full animate-shimmer"></div>
+                </div>
+
+                {/* Mobile Menu Button Shimmer */}
+                <div className="md:hidden">
+                    <div className="h-6 w-6 bg-gradient-to-r from-russet/30 via-white to-russet/30 rounded animate-shimmer"></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+);
+
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+        // Simulate loading for shimmer effect
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false);
+        }, 300);
+        
+        return () => clearTimeout(loadingTimer);
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
     return (
-        <header className="bg-almond shadow-lg sticky top-0 z-50">
+        <>
+            {isLoading ? (
+                <HeaderShimmer />
+            ) : (
+                <header className="bg-almond shadow-lg sticky top-0 z-50">
             <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-18 md:h-24 lg:h-28">
                     {/* Logo Section */}
@@ -33,15 +75,18 @@ function Header() {
                         <Link to="/about-us" className="text-russet hover:text-twine transition-colors duration-300 font-medium">
                             About
                         </Link>
+                        <a href="#tour" className="text-russet hover:text-twine transition-colors duration-300 font-medium">
+                            Tour
+                        </a>
                         <a href="/full-menu" className="text-russet hover:text-twine transition-colors duration-300 font-medium">
                             Menu
                         </a>
                         <a href="#contact" className="text-russet hover:text-twine transition-colors duration-300 font-medium">
                             Contact
                         </a>
-                        <button className="bg-russet text-almond px-6 py-2 rounded-full hover:bg-leather transition-colors duration-300 font-medium shadow-md">
-                            Enquire
-                        </button>
+                        <a href="#contact" className="bg-russet text-almond px-6 py-2 rounded-full hover:bg-leather transition-colors duration-300 font-medium shadow-md">
+                            Enquire Now
+                        </a>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -80,6 +125,13 @@ function Header() {
                                 About
                             </Link>
                             <a 
+                                href="#tour" 
+                                className="block px-3 py-2 text-russet hover:text-twine hover:bg-white/50 rounded-md transition-all duration-300 font-medium"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Tour
+                            </a>
+                            <a 
                                 href="#menu" 
                                 className="block px-3 py-2 text-russet hover:text-twine hover:bg-white/50 rounded-md transition-all duration-300 font-medium"
                                 onClick={() => setIsMenuOpen(false)}
@@ -94,15 +146,21 @@ function Header() {
                                 Contact
                             </a>
                             <div className="px-3 py-2">
-                                <button className="w-full bg-russet text-almond px-4 py-2 rounded-full hover:bg-leather transition-colors duration-300 font-medium shadow-md">
-                                    Enquire
-                                </button>
+                                <a 
+                                    href="#contact" 
+                                    className="block w-full bg-russet text-almond px-4 py-2 rounded-full hover:bg-leather transition-colors duration-300 font-medium shadow-md text-center"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Enquire Now
+                                </a>
                             </div>
                         </div>
                     </div>
                 )}
-            </nav>
-        </header>
+                </nav>
+            </header>
+            )}
+        </>
     );
 }
 
